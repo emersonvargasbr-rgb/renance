@@ -1,0 +1,21 @@
+<div class="min-h-screen flex flex-col items-center p-4 bg-gray-900 text-white relative pt-12">
+  
+  <!-- Botón de Cerrar Sesión (Solo visible si estás logueado) -->
+  <button *ngIf="session" (click)="logout()" class="absolute top-4 right-4 text-sm text-red-400 hover:text-red-300 font-semibold bg-gray-800 px-3 py-1 rounded">
+    Cerrar Sesión
+  </button>
+
+  <h1 class="text-3xl font-bold text-emerald-400 mb-2">Renance</h1>
+  <p class="text-gray-400 mb-6">Control de Divisas y Arbitraje</p>
+  
+  <!-- Mostrar Login si NO hay sesión -->
+  <ng-container *ngIf="!session">
+    <app-login></app-login>
+  </ng-container>
+
+  <!-- Mostrar Calculadora si SÍ hay sesión -->
+  <ng-container *ngIf="session">
+    <app-calculator></app-calculator>
+  </ng-container>
+
+</div>

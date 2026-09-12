@@ -1,21 +1,76 @@
-<div class="min-h-screen flex flex-col items-center p-4 bg-gray-900 text-white relative pt-12">
-  
-  <!-- Botón de Cerrar Sesión (Solo visible si estás logueado) -->
-  <button *ngIf="session" (click)="logout()" class="absolute top-4 right-4 text-sm text-red-400 hover:text-red-300 font-semibold bg-gray-800 px-3 py-1 rounded">
-    Cerrar Sesión
-  </button>
+<!-- Contenedor Principal (Fondo oscuro de la App) -->
+<div class="min-h-screen bg-gray-950 text-white font-sans selection:bg-emerald-500/30">
 
-  <h1 class="text-3xl font-bold text-emerald-400 mb-2">Renance</h1>
-  <p class="text-gray-400 mb-6">Control de Divisas y Arbitraje</p>
-  
-  <!-- Mostrar Login si NO hay sesión -->
-  <ng-container *ngIf="!session">
-    <app-login></app-login>
-  </ng-container>
+  <!-- CABECERA ANDROID MODERNA (Sticky Top + Blur) -->
+  <header class="sticky top-0 z-50 bg-gray-900/80 backdrop-blur-lg border-b border-gray-800">
+    <div class="max-w-2xl mx-auto">
+      
+      <!-- Fila 1: Logo y Perfil -->
+      <div class="flex items-center justify-between h-16 px-4">
+        <!-- Marca de la App -->
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-blue-600 flex items-center justify-center shadow-lg">
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h1 class="text-xl font-bold tracking-tight text-white">
+            P2P <span class="text-gray-500 font-medium">Pro</span>
+          </h1>
+        </div>
+        
+        <!-- Botón de Menú/Perfil (Visual) -->
+        <button class="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
 
-  <!-- Mostrar Calculadora si SÍ hay sesión -->
-  <ng-container *ngIf="session">
-    <app-calculator></app-calculator>
-  </ng-container>
+      <!-- Fila 2: Pestañas de Navegación (Tabs) -->
+      <nav class="flex px-4 pt-1">
+        <!-- Tab: Remesas (Verde) -->
+        <button (click)="activeTab = 'calculator'"
+                class="flex-1 pb-3 pt-2 text-sm font-semibold tracking-wide transition-all relative"
+                [ngClass]="activeTab === 'calculator' ? 'text-emerald-400' : 'text-gray-500 hover:text-gray-300'">
+          COTIZADOR
+          <!-- Línea indicadora activa (Estilo Android) -->
+          <div *ngIf="activeTab === 'calculator'" class="absolute bottom-0 left-0 w-full h-1 bg-emerald-400 rounded-t-full shadow-[0_-2px_10px_rgba(52,211,153,0.5)]"></div>
+        </button>
 
+        <!-- Tab: Tesorería (Azul) -->
+        <button (click)="activeTab = 'finance'"
+                class="flex-1 pb-3 pt-2 text-sm font-semibold tracking-wide transition-all relative"
+                [ngClass]="activeTab === 'finance' ? 'text-blue-400' : 'text-gray-500 hover:text-gray-300'">
+          TESORERÍA
+          <!-- Línea indicadora activa -->
+          <div *ngIf="activeTab === 'finance'" class="absolute bottom-0 left-0 w-full h-1 bg-blue-400 rounded-t-full shadow-[0_-2px_10px_rgba(96,165,250,0.5)]"></div>
+        </button>
+
+        <!-- Tab: SMM (Púrpura) -->
+        <button (click)="activeTab = 'smm'"
+                class="flex-1 pb-3 pt-2 text-sm font-semibold tracking-wide transition-all relative"
+                [ngClass]="activeTab === 'smm' ? 'text-purple-400' : 'text-gray-500 hover:text-gray-300'">
+          MARKETING SMM
+          <div *ngIf="activeTab === 'smm'" class="absolute bottom-0 left-0 w-full h-1 bg-purple-400 rounded-t-full shadow-[0_-2px_10px_rgba(168,85,247,0.5)]"></div>
+        </button>
+      </nav>
+      
+    </div>
+  </header>
+
+  <!-- ÁREA DE CONTENIDO (Aquí cargan las pantallas) -->
+  <main class="max-w-2xl mx-auto px-4 pt-4 pb-20 overflow-x-hidden">
+    
+    <!-- Animación suave de entrada (Angular 17+ Control Flow o ngIf) -->
+    <div *ngIf="activeTab === 'calculator'" class="animate-fade-in">
+      <app-calculator></app-calculator>
+    </div>
+
+    <div *ngIf="activeTab === 'finance'" class="animate-fade-in">
+      <app-finance-control></app-finance-control>
+    </div>
+
+    <!-- NUEVO: Contenedor para el panel SMM -->
+    <div *ngIf="activeTab === 'smm'" class="animate-fade-in">
+      <app-smm-panel></app-smm-panel>
+    </div>
+
+  </main>
 </div>
